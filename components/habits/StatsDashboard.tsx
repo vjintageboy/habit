@@ -5,6 +5,7 @@ import { Card, Flex, Heading, Text } from "@radix-ui/themes"
 import { useIotaClient } from "@iota/dapp-kit"
 import { getHabitFields } from "@/hooks/useHabit"
 import type { Habit } from "@/types/habit"
+import { isSameDay } from "@/types/habit"
 
 interface StatsDashboardProps {
   habitIds: string[]
@@ -50,12 +51,15 @@ export function StatsDashboard({ habitIds }: StatsDashboardProps) {
   // Longest Streak: Max longest streak across all habits
   const topLongestStreak = habits.reduce((max, h) => Math.max(max, h.longestStreak), 0)
 
-  // Active Habits: Habits with at least one check-in or streak > 0
-  const activeHabits = habits.filter(h => h.totalCheckins > 0).length
+  // Active Habits: Habits checked in TODAY
+  const completedToday = habits.filter(h => {
+    if (!h.lastCheckinDate) return false
+    return isSameDay(h.lastCheckinDate, Date.now())
+  }).length
 
-  // Completion Rate: (Active / Total) * 100
+  // Completion Rate: (Completed Today / Total) * 100
   const completionRate = totalHabits > 0
-    ? Math.round((activeHabits / totalHabits) * 100)
+    ? Math.round((completedToday / totalHabits) * 100)
     : 0
 
   return (
@@ -84,8 +88,8 @@ export function StatsDashboard({ habitIds }: StatsDashboardProps) {
         </Flex>
 
         <Flex direction="column" gap="1" style={{ minWidth: "150px" }}>
-          <Text size="2" color="gray">Active Habits</Text>
-          <Text size="7" weight="bold">{activeHabits}/{totalHabits}</Text>
+          <Text size="2" color="gray">Completed Today</Text>
+          <Text size="7" weight="bold">{completedToday}/{totalHabits}</Text>
         </Flex>
 
         <Flex direction="column" gap="1" style={{ minWidth: "150px" }}>
