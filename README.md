@@ -89,6 +89,7 @@ habit/
 - **[Instruction Guide](./INSTRUCTION_GUIDE.md)**: Detailed step-by-step setup guide.
 - **[Troubleshooting](./FIX_CHECKIN.md)**: Solutions for common issues like transaction failures.
 - **[IOTA Documentation](https://wiki.iota.org/)**: Learn more about developing on IOTA.
+- **[Contract Address]([https://wiki.iota.org/](https://explorer.iota.org/object/0x80a377b0e64fbc25363844ee3fa0194e876a65b65c9a61a0cedc378518a93834?network=devnet))**:
 
 ## 🤝 Contributing
 
